@@ -125,7 +125,7 @@ class _RoboticRevolvingButtonState extends State<RoboticRevolvingButton>
                       angle: _rotationAnimation.value,
                       lineColor: widget.lineColor ?? const Color(0xFFFFD700),
                     ),
-                    child: Container(
+                    child: SizedBox(
                       width: (widget.width ?? 230) + 8,
                       height: 72,
                     ),

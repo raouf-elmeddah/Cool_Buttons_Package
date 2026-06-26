@@ -13,7 +13,7 @@ class CheckoutButton extends StatefulWidget {
   final List<Color>? afterColors;
 
   const CheckoutButton({
-    Key? key,
+    super.key,
     this.onPressed,
     this.isEnabled = true,
     this.text = 'Pay Now',
@@ -23,7 +23,7 @@ class CheckoutButton extends StatefulWidget {
     this.height = 56,
     this.beforeColors,
     this.afterColors,
-  }) : super(key: key);
+  });
 
   @override
   State<CheckoutButton> createState() => _CheckoutButtonState();
@@ -36,7 +36,7 @@ class _CheckoutButtonState extends State<CheckoutButton>
   late AnimationController _moneyController;
   late AnimationController _successController;
   late AnimationController _glowController;
-  
+
   late Animation<double> _paymentAnimation;
   late Animation<double> _scaleAnimation;
   late Animation<double> _moneyFallAnimation;
@@ -49,71 +49,51 @@ class _CheckoutButtonState extends State<CheckoutButton>
   @override
   void initState() {
     super.initState();
-    
+
     _paymentController = AnimationController(
       duration: const Duration(milliseconds: 3000),
       vsync: this,
     );
-    
+
     _scaleController = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
-    
+
     _moneyController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
-    
+
     _successController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    
+
     _glowController = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
     );
 
-    _paymentAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _paymentController,
-      curve: Curves.easeInOut,
-    ));
+    _paymentAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _paymentController, curve: Curves.easeInOut),
+    );
 
-    _scaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: 0.95,
-    ).animate(CurvedAnimation(
-      parent: _scaleController,
-      curve: Curves.easeInOut,
-    ));
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(parent: _scaleController, curve: Curves.easeInOut),
+    );
 
-    _moneyFallAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _moneyController,
-      curve: Curves.bounceOut,
-    ));
+    _moneyFallAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _moneyController, curve: Curves.bounceOut),
+    );
 
-    _successAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _successController,
-      curve: Curves.elasticOut,
-    ));
+    _successAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _successController, curve: Curves.elasticOut),
+    );
 
-    _glowAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _glowController,
-      curve: Curves.easeInOut,
-    ));
+    _glowAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut),
+    );
     // Start subtle glow animation
     _glowController.repeat(reverse: true);
   }
@@ -135,7 +115,7 @@ class _CheckoutButtonState extends State<CheckoutButton>
     setState(() => _isProcessing = true);
 
     _paymentController.forward();
-    
+
     Future.delayed(const Duration(milliseconds: 1000), () {
       if (mounted) _moneyController.forward();
     });
@@ -175,15 +155,19 @@ class _CheckoutButtonState extends State<CheckoutButton>
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: _isSuccess 
-                      ? (widget.afterColors?.first ?? Colors.green).withOpacity(0.4)
-                      : (widget.beforeColors?.first ?? const Color(0xFFEF4444)).withOpacity(0.3),
+                  color: _isSuccess
+                      ? (widget.afterColors?.first ?? Colors.green).withValues(
+                          alpha: 0.4,
+                        )
+                      : (widget.beforeColors?.first ?? const Color(0xFFEF4444))
+                            .withValues(alpha: 0.3),
                   blurRadius: 12 + (4 * _glowAnimation.value),
                   offset: const Offset(0, 4),
                 ),
                 if (_isSuccess)
                   BoxShadow(
-                    color: (widget.afterColors?.first ?? Colors.green).withOpacity(0.2),
+                    color: (widget.afterColors?.first ?? Colors.green)
+                        .withValues(alpha: 0.2),
                     blurRadius: 20,
                     offset: const Offset(0, 0),
                   ),
@@ -203,19 +187,18 @@ class _CheckoutButtonState extends State<CheckoutButton>
                     borderRadius: BorderRadius.circular(16),
                     gradient: LinearGradient(
                       colors: _isSuccess
-                          ? widget.afterColors ?? [
-                              const Color(0xFF10B981),
-                              const Color(0xFF059669),
-                            ]
+                          ? widget.afterColors ??
+                                [
+                                  const Color(0xFF10B981),
+                                  const Color(0xFF059669),
+                                ]
                           : widget.isEnabled
-                              ? widget.beforeColors ?? [
+                          ? widget.beforeColors ??
+                                [
                                   const Color(0xFFEF4444),
                                   const Color(0xFFDC2626),
                                 ]
-                              : [
-                                  Colors.grey.shade400,
-                                  Colors.grey.shade500,
-                                ],
+                          : [Colors.grey.shade400, Colors.grey.shade500],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -233,7 +216,8 @@ class _CheckoutButtonState extends State<CheckoutButton>
                                 child: Opacity(
                                   opacity: 1.0 - _moneyFallAnimation.value,
                                   child: Transform.rotate(
-                                    angle: _moneyFallAnimation.value * 2 * 3.14159,
+                                    angle:
+                                        _moneyFallAnimation.value * 2 * 3.14159,
                                     child: const Icon(
                                       Icons.attach_money,
                                       color: Colors.white,
@@ -245,7 +229,7 @@ class _CheckoutButtonState extends State<CheckoutButton>
                             },
                           );
                         }),
-                      
+
                       // Main content
                       Center(
                         child: AnimatedSwitcher(
@@ -275,11 +259,7 @@ class _CheckoutButtonState extends State<CheckoutButton>
               key: ValueKey('success'),
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.check_circle,
-                  color: Colors.white,
-                  size: 24,
-                ),
+                Icon(Icons.check_circle, color: Colors.white, size: 24),
                 SizedBox(width: 8),
                 Text(
                   'Payment Successful!',
@@ -313,10 +293,7 @@ class _CheckoutButtonState extends State<CheckoutButton>
                     width: 24,
                     height: 16,
                     decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 2,
-                      ),
+                      border: Border.all(color: Colors.white, width: 2),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -341,7 +318,7 @@ class _CheckoutButtonState extends State<CheckoutButton>
                       width: 4,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.8),
+                        color: Colors.white.withValues(alpha: 0.8),
                         borderRadius: BorderRadius.circular(1),
                       ),
                     ),
@@ -368,11 +345,7 @@ class _CheckoutButtonState extends State<CheckoutButton>
       key: const ValueKey('default'),
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Icon(
-          Icons.credit_card,
-          color: Colors.white,
-          size: 20,
-        ),
+        const Icon(Icons.credit_card, color: Colors.white, size: 20),
         const SizedBox(width: 8),
         Text(
           widget.text,
@@ -388,7 +361,7 @@ class _CheckoutButtonState extends State<CheckoutButton>
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(

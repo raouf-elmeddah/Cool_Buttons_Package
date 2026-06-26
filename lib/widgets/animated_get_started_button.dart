@@ -169,19 +169,19 @@ class _AnimatedGetStartedButtonState extends State<AnimatedGetStartedButton>
                 boxShadow: [
                   // Animated outer glow
                   BoxShadow(
-                    color: const Color(0xFF667EEA).withOpacity(0.5 * _glowAnimation.value),
+                    color: const Color(0xFF667EEA).withValues(alpha: 0.5 * _glowAnimation.value),
                     blurRadius: 30 * _glowAnimation.value,
                     spreadRadius: 5 * _glowAnimation.value,
                   ),
                   // Secondary glow
                   BoxShadow(
-                    color: const Color(0xFFE73C7E).withOpacity(0.3 * _glowAnimation.value),
+                    color: const Color(0xFFE73C7E).withValues(alpha: 0.3 * _glowAnimation.value),
                     blurRadius: 15 * _glowAnimation.value,
                     spreadRadius: 2 * _glowAnimation.value,
                   ),
                   // Base shadow
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.15),
+                    color: Colors.black.withValues(alpha: 0.15),
                     blurRadius: 15,
                     offset: const Offset(0, 8),
                   ),
@@ -227,11 +227,11 @@ class _AnimatedGetStartedButtonState extends State<AnimatedGetStartedButton>
                             end: Alignment(-1.0 + 4.0 * _shimmerController.value, 1.0),
                             colors: [
                               Colors.transparent,
-                              Colors.white.withOpacity(0.1),
-                              Colors.white.withOpacity(0.4),
-                              Colors.white.withOpacity(0.8),
-                              Colors.white.withOpacity(0.4),
-                              Colors.white.withOpacity(0.1),
+                              Colors.white.withValues(alpha: 0.1),
+                              Colors.white.withValues(alpha: 0.4),
+                              Colors.white.withValues(alpha: 0.8),
+                              Colors.white.withValues(alpha: 0.4),
+                              Colors.white.withValues(alpha: 0.1),
                               Colors.transparent,
                             ],
                             stops: const [0.0, 0.1, 0.3, 0.5, 0.7, 0.9, 1.0],
@@ -246,7 +246,7 @@ class _AnimatedGetStartedButtonState extends State<AnimatedGetStartedButton>
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(buttonHeight / 2),
                               border: Border.all(
-                                color: Colors.white.withOpacity(0.5 * (1 - _rippleAnimation.value)),
+                                color: Colors.white.withValues(alpha: 0.5 * (1 - _rippleAnimation.value)),
                                 width: 2 * _rippleAnimation.value,
                               ),
                             ),
@@ -258,7 +258,7 @@ class _AnimatedGetStartedButtonState extends State<AnimatedGetStartedButton>
                         Positioned.fill(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.1),
+                              color: Colors.black.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(buttonHeight / 2),
                             ),
                           ),
@@ -269,7 +269,7 @@ class _AnimatedGetStartedButtonState extends State<AnimatedGetStartedButton>
                         Positioned.fill(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.1),
+                              color: Colors.white.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(buttonHeight / 2),
                             ),
                           ),
@@ -311,7 +311,7 @@ class _AnimatedGetStartedButtonState extends State<AnimatedGetStartedButton>
                                       letterSpacing: 1.2,
                                       shadows: [
                                         Shadow(
-                                          color: Colors.black.withOpacity(0.3),
+                                          color: Colors.black.withValues(alpha: 0.3),
                                           offset: const Offset(0, 1),
                                           blurRadius: 2,
                                         ),
@@ -341,7 +341,7 @@ class ParticlePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white.withOpacity(0.3)
+      ..color = Colors.white.withValues(alpha: 0.3)
       ..style = PaintingStyle.fill;
     
     // Draw floating particles
@@ -354,7 +354,7 @@ class ParticlePainter extends CustomPainter {
       canvas.drawCircle(
         Offset(x, y),
         radius,
-        paint..color = Colors.white.withOpacity(0.4 * (1 - progress)),
+        paint..color = Colors.white.withValues(alpha: 0.4 * (1 - progress)),
       );
     }
   }
@@ -365,8 +365,11 @@ class ParticlePainter extends CustomPainter {
 
 // Demo widget
 class AnimatedGetStartedButtonDemo extends StatefulWidget {
+  const AnimatedGetStartedButtonDemo({super.key});
+
   @override
-  _AnimatedGetStartedButtonDemoState createState() => _AnimatedGetStartedButtonDemoState();
+  State<AnimatedGetStartedButtonDemo> createState() =>
+      _AnimatedGetStartedButtonDemoState();
 }
 
 class _AnimatedGetStartedButtonDemoState extends State<AnimatedGetStartedButtonDemo> {
@@ -413,7 +416,7 @@ class _AnimatedGetStartedButtonDemoState extends State<AnimatedGetStartedButtonD
                 style: GoogleFonts.poppins(
                   fontSize: 32,
                   fontWeight: FontWeight.w300,
-                  color: Colors.white.withOpacity(0.9),
+                  color: Colors.white.withValues(alpha: 0.9),
                   letterSpacing: 1.5,
                 ),
               ),
@@ -423,7 +426,7 @@ class _AnimatedGetStartedButtonDemoState extends State<AnimatedGetStartedButtonD
                 style: GoogleFonts.poppins(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  color: Colors.white.withOpacity(0.7),
+                  color: Colors.white.withValues(alpha: 0.7),
                   letterSpacing: 0.5,
                 ),
               ),
@@ -441,7 +444,7 @@ class _AnimatedGetStartedButtonDemoState extends State<AnimatedGetStartedButtonD
                 style: GoogleFonts.poppins(
                   fontSize: 14,
                   fontWeight: FontWeight.w300,
-                  color: Colors.white.withOpacity(0.5),
+                  color: Colors.white.withValues(alpha: 0.5),
                   letterSpacing: 0.5,
                 ),
               ),

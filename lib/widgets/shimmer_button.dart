@@ -35,44 +35,36 @@ class _ShimmerButtonState extends State<ShimmerButton>
   late AnimationController _glowController;
   late Animation<double> _scaleAnimation;
   late Animation<double> _glowAnimation;
-  
+
   bool _isPressed = false;
 
   @override
   void initState() {
     super.initState();
-    
+
     // Shimmer animation
     _shimmerController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     )..repeat();
-    
+
     // Scale animation for press effect
     _scaleController = AnimationController(
       duration: const Duration(milliseconds: 150),
       vsync: this,
     );
-    _scaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: 0.95,
-    ).animate(CurvedAnimation(
-      parent: _scaleController,
-      curve: Curves.easeInOut,
-    ));
-    
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(parent: _scaleController, curve: Curves.easeInOut),
+    );
+
     // Glow animation
     _glowController = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
     )..repeat(reverse: true);
-    _glowAnimation = Tween<double>(
-      begin: 0.3,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _glowController,
-      curve: Curves.easeInOut,
-    ));
+    _glowAnimation = Tween<double>(begin: 0.3, end: 1.0).animate(
+      CurvedAnimation(parent: _glowController, curve: Curves.easeInOut),
+    );
   }
 
   @override
@@ -102,14 +94,19 @@ class _ShimmerButtonState extends State<ShimmerButton>
   Widget build(BuildContext context) {
     final double buttonWidth = widget.width ?? 200;
     final double buttonHeight = widget.height ?? 56;
-    
+
     // Custom colors with fallback
     final Color primaryColor = widget.primaryColor ?? const Color(0xFF667EEA);
-    final Color secondaryColor = widget.secondaryColor ?? const Color(0xFF764BA2);
+    final Color secondaryColor =
+        widget.secondaryColor ?? const Color(0xFF764BA2);
     final Color accentColor = widget.accentColor ?? const Color(0xFFE73C7E);
 
     return AnimatedBuilder(
-      animation: Listenable.merge([_shimmerController, _scaleAnimation, _glowAnimation]),
+      animation: Listenable.merge([
+        _shimmerController,
+        _scaleAnimation,
+        _glowAnimation,
+      ]),
       builder: (context, child) {
         return Transform.scale(
           scale: _scaleAnimation.value,
@@ -126,13 +123,15 @@ class _ShimmerButtonState extends State<ShimmerButton>
                 boxShadow: [
                   // Animated glow effect
                   BoxShadow(
-                    color: primaryColor.withOpacity(0.4 * _glowAnimation.value),
+                    color: primaryColor.withValues(
+                      alpha: 0.4 * _glowAnimation.value,
+                    ),
                     blurRadius: 20 * _glowAnimation.value,
                     spreadRadius: 2 * _glowAnimation.value,
                   ),
                   // Static shadow for depth
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -148,16 +147,12 @@ class _ShimmerButtonState extends State<ShimmerButton>
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: [
-                            primaryColor,
-                            secondaryColor,
-                            accentColor,
-                          ],
+                          colors: [primaryColor, secondaryColor, accentColor],
                           stops: const [0.0, 0.5, 1.0],
                         ),
                       ),
                     ),
-                    
+
                     // Shimmer overlay
                     Positioned.fill(
                       child: AnimatedBuilder(
@@ -166,13 +161,19 @@ class _ShimmerButtonState extends State<ShimmerButton>
                           return Container(
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
-                                begin: Alignment(-2.0 + 4.0 * _shimmerController.value, -0.5),
-                                end: Alignment(-1.0 + 4.0 * _shimmerController.value, 0.5),
+                                begin: Alignment(
+                                  -2.0 + 4.0 * _shimmerController.value,
+                                  -0.5,
+                                ),
+                                end: Alignment(
+                                  -1.0 + 4.0 * _shimmerController.value,
+                                  0.5,
+                                ),
                                 colors: [
                                   Colors.transparent,
-                                  Colors.white.withOpacity(0.3),
-                                  Colors.white.withOpacity(0.6),
-                                  Colors.white.withOpacity(0.3),
+                                  Colors.white.withValues(alpha: 0.3),
+                                  Colors.white.withValues(alpha: 0.6),
+                                  Colors.white.withValues(alpha: 0.3),
                                   Colors.transparent,
                                 ],
                                 stops: const [0.0, 0.3, 0.5, 0.7, 1.0],
@@ -182,18 +183,20 @@ class _ShimmerButtonState extends State<ShimmerButton>
                         },
                       ),
                     ),
-                    
+
                     // Pressed overlay
                     if (_isPressed)
                       Positioned.fill(
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(buttonHeight / 2),
+                            color: Colors.black.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(
+                              buttonHeight / 2,
+                            ),
                           ),
                         ),
                       ),
-                    
+
                     // Button content
                     Center(
                       child: widget.isLoading
@@ -202,7 +205,9 @@ class _ShimmerButtonState extends State<ShimmerButton>
                               height: 20,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
                               ),
                             )
                           : Row(
@@ -241,8 +246,10 @@ class _ShimmerButtonState extends State<ShimmerButton>
 
 // Example usage widget
 class ShimmerButtonExample extends StatefulWidget {
+  const ShimmerButtonExample({super.key});
+
   @override
-  _ShimmerButtonExampleState createState() => _ShimmerButtonExampleState();
+  State<ShimmerButtonExample> createState() => _ShimmerButtonExampleState();
 }
 
 class _ShimmerButtonExampleState extends State<ShimmerButtonExample> {
@@ -250,7 +257,7 @@ class _ShimmerButtonExampleState extends State<ShimmerButtonExample> {
 
   void _handleTap() {
     setState(() => _isLoading = true);
-    
+
     // Simulate async operation
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
@@ -274,26 +281,26 @@ class _ShimmerButtonExampleState extends State<ShimmerButtonExample> {
               isLoading: _isLoading,
               icon: Icons.rocket_launch,
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Custom colored shimmer button
             ShimmerButton(
               text: "Download Now",
-              onTap: () => print("Download tapped"),
+              onTap: () => debugPrint("Download tapped"),
               width: 250,
               primaryColor: const Color(0xFF00F260),
               secondaryColor: const Color(0xFF0575E6),
               accentColor: const Color(0xFF00F260),
               icon: Icons.download,
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Purple theme shimmer button
             ShimmerButton(
               text: "Subscribe",
-              onTap: () => print("Subscribe tapped"),
+              onTap: () => debugPrint("Subscribe tapped"),
               width: 180,
               primaryColor: const Color(0xFF8B5CF6),
               secondaryColor: const Color(0xFFA855F7),

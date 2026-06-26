@@ -1,4 +1,4 @@
-library explore_button;
+library;
 
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
@@ -20,7 +20,7 @@ class ExploreButton extends StatefulWidget {
   final Color hoverArrowCircleColor;
 
   const ExploreButton({
-    Key? key,
+    super.key,
     this.text = 'Explore',
     this.onPressed,
     this.width = 180,
@@ -35,7 +35,7 @@ class ExploreButton extends StatefulWidget {
     this.hoverBorderColor = Colors.white,
     this.initialArrowCircleColor = Colors.black,
     this.hoverArrowCircleColor = Colors.white,
-  }) : super(key: key);
+  });
 
   @override
   State<ExploreButton> createState() => _ExploreButtonState();
@@ -66,38 +66,51 @@ class _ExploreButtonState extends State<ExploreButton>
       duration: const Duration(milliseconds: 150),
       vsync: this,
     );
-    
+
     _pressAnimation = Tween<double>(begin: 1.0, end: 0.96).animate(
       CurvedAnimation(parent: _pressController, curve: Curves.easeInOut),
     );
-    
+
     _rotationAnimation = Tween<double>(begin: -math.pi / 4, end: 0.0).animate(
       CurvedAnimation(parent: _hoverController, curve: Curves.easeInOut),
     );
-    
-    _fillAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _hoverController, curve: Curves.easeOut),
-    );
-    
-    _textColorAnimation = ColorTween(
-      begin: widget.initialTextColor,
-      end: widget.hoverTextColor,
-    ).animate(CurvedAnimation(parent: _hoverController, curve: Curves.easeInOut));
-    
-    _arrowColorAnimation = ColorTween(
-      begin: widget.hoverTextColor,
-      end: widget.initialTextColor,
-    ).animate(CurvedAnimation(parent: _hoverController, curve: Curves.easeInOut));
-    
-    _arrowCircleColorAnimation = ColorTween(
-      begin: widget.initialArrowCircleColor,
-      end: widget.hoverArrowCircleColor,
-    ).animate(CurvedAnimation(parent: _hoverController, curve: Curves.easeInOut));
-    
-    _borderColorAnimation = ColorTween(
-      begin: widget.initialBorderColor,
-      end: widget.hoverBorderColor,
-    ).animate(CurvedAnimation(parent: _hoverController, curve: Curves.easeInOut));
+
+    _fillAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _hoverController, curve: Curves.easeOut));
+
+    _textColorAnimation =
+        ColorTween(
+          begin: widget.initialTextColor,
+          end: widget.hoverTextColor,
+        ).animate(
+          CurvedAnimation(parent: _hoverController, curve: Curves.easeInOut),
+        );
+
+    _arrowColorAnimation =
+        ColorTween(
+          begin: widget.hoverTextColor,
+          end: widget.initialTextColor,
+        ).animate(
+          CurvedAnimation(parent: _hoverController, curve: Curves.easeInOut),
+        );
+
+    _arrowCircleColorAnimation =
+        ColorTween(
+          begin: widget.initialArrowCircleColor,
+          end: widget.hoverArrowCircleColor,
+        ).animate(
+          CurvedAnimation(parent: _hoverController, curve: Curves.easeInOut),
+        );
+
+    _borderColorAnimation =
+        ColorTween(
+          begin: widget.initialBorderColor,
+          end: widget.hoverBorderColor,
+        ).animate(
+          CurvedAnimation(parent: _hoverController, curve: Curves.easeInOut),
+        );
   }
 
   @override
@@ -143,10 +156,7 @@ class _ExploreButtonState extends State<ExploreButton>
         onTapUp: _handleTapUp,
         onTapCancel: _handleTapCancel,
         child: AnimatedBuilder(
-          animation: Listenable.merge([
-            _hoverController,
-            _pressController,
-          ]),
+          animation: Listenable.merge([_hoverController, _pressController]),
           builder: (context, child) {
             return Transform.scale(
               scale: _pressAnimation.value,
@@ -163,12 +173,14 @@ class _ExploreButtonState extends State<ExploreButton>
                         color: widget.initialBackgroundColor,
                         borderRadius: BorderRadius.circular(widget.height / 2),
                         border: Border.all(
-                          color: _borderColorAnimation.value ?? widget.initialBorderColor,
+                          color:
+                              _borderColorAnimation.value ??
+                              widget.initialBorderColor,
                           width: 1.5,
                         ),
                       ),
                     ),
-                    
+
                     // Soft fill animation with gradient edge
                     ClipRRect(
                       borderRadius: BorderRadius.circular(widget.height / 2),
@@ -189,8 +201,12 @@ class _ExploreButtonState extends State<ExploreButton>
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
-                                    widget.hoverBackgroundColor.withOpacity(1),
-                                    widget.hoverBackgroundColor.withOpacity(0),
+                                    widget.hoverBackgroundColor.withValues(
+                                      alpha: 1,
+                                    ),
+                                    widget.hoverBackgroundColor.withValues(
+                                      alpha: 0,
+                                    ),
                                   ],
                                   stops: const [0.0, 1.0],
                                   begin: Alignment.centerLeft,
@@ -202,7 +218,7 @@ class _ExploreButtonState extends State<ExploreButton>
                         ],
                       ),
                     ),
-                    
+
                     // Thin white border overlay that appears on hover
                     // (This creates the secondary border effect when hovered)
                     Container(
@@ -211,12 +227,14 @@ class _ExploreButtonState extends State<ExploreButton>
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(widget.height / 2),
                         border: Border.all(
-                          color: widget.hoverBorderColor.withOpacity(_fillAnimation.value * 0.3),
+                          color: widget.hoverBorderColor.withValues(
+                            alpha: _fillAnimation.value * 0.3,
+                          ),
                           width: 1.0,
                         ),
                       ),
                     ),
-                    
+
                     // Content container
                     Container(
                       width: widget.width,

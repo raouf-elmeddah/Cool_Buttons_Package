@@ -1,4 +1,4 @@
-library cool_buttons;
+library;
 
 export 'widgets/animated_delete_button.dart';
 export 'widgets/animated_get_started_button.dart';

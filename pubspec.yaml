@@ -1,21 +1,21 @@
 name: cool_buttons
 description: "The Cool Buttons Flutter package (package:cool_buttons) is a collection of visually engaging, customizable button widgets designed to enhance the user interface of Flutter applications. It provides a variety of animated and stylized buttons, each with unique effects such as shimmering gradients, revolving animations, pulsating visuals, and futuristic designs, making them ideal for creating interactive and modern UI/UX experiences.."
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/Pratyush-who/Cool_Buttons_Package
 
 environment:
-  sdk: ^3.8.1
+  sdk: ^3.12.0
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  google_fonts: ^6.2.1
+  google_fonts: 8.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: 6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -15,7 +15,7 @@ class FuturisticButton extends StatefulWidget {
   final bool isEnabled;
 
   const FuturisticButton({
-    Key? key,
+    super.key,
     required this.text,
     this.onPressed,
     this.width = 200,
@@ -28,7 +28,7 @@ class FuturisticButton extends StatefulWidget {
     this.textStyle,
     this.animationDuration = const Duration(seconds: 2),
     this.isEnabled = true,
-  }) : super(key: key);
+  });
 
   @override
   State<FuturisticButton> createState() => _FuturisticButtonState();
@@ -97,7 +97,7 @@ class _FuturisticButtonState extends State<FuturisticButton>
                         TextStyle(
                           color: widget.isEnabled 
                               ? widget.textColor 
-                              : widget.textColor.withOpacity(0.5),
+                              : widget.textColor.withValues(alpha: 0.5),
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 1.2,
@@ -142,7 +142,7 @@ class LightningBorderPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     final glowPaint = Paint()
-      ..color = borderColor.withOpacity(0.3)
+      ..color = borderColor.withValues(alpha: 0.3)
       ..style = PaintingStyle.stroke
       ..strokeWidth = borderWidth * 2
       ..strokeCap = StrokeCap.round

@@ -12,7 +12,7 @@ class CompleteOrderButton extends StatefulWidget {
   final List<Color>? afterColors;
 
   const CompleteOrderButton({
-    Key? key,
+    super.key,
     this.onPressed,
     this.isEnabled = true,
     this.text = 'Complete Order',
@@ -21,7 +21,7 @@ class CompleteOrderButton extends StatefulWidget {
     this.height = 56,
     this.beforeColors,
     this.afterColors,
-  }) : super(key: key);
+  });
 
   @override
   State<CompleteOrderButton> createState() => _CompleteOrderButtonState();
@@ -42,45 +42,33 @@ class _CompleteOrderButtonState extends State<CompleteOrderButton>
   @override
   void initState() {
     super.initState();
-    
+
     _packingController = AnimationController(
       duration: const Duration(milliseconds: 2500),
       vsync: this,
     );
-    
+
     _scaleController = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
-    
+
     _shimmerController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
 
-    _packingAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _packingController,
-      curve: Curves.easeInOut,
-    ));
+    _packingAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _packingController, curve: Curves.easeInOut),
+    );
 
-    _scaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: 0.95,
-    ).animate(CurvedAnimation(
-      parent: _scaleController,
-      curve: Curves.easeInOut,
-    ));
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(parent: _scaleController, curve: Curves.easeInOut),
+    );
 
-    _shimmerAnimation = Tween<double>(
-      begin: -1.0,
-      end: 2.0,
-    ).animate(CurvedAnimation(
-      parent: _shimmerController,
-      curve: Curves.easeInOut,
-    ));
+    _shimmerAnimation = Tween<double>(begin: -1.0, end: 2.0).animate(
+      CurvedAnimation(parent: _shimmerController, curve: Curves.easeInOut),
+    );
 
     // Start shimmer animation
     _shimmerController.repeat();
@@ -137,9 +125,12 @@ class _CompleteOrderButtonState extends State<CompleteOrderButton>
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: _isCompleted 
-                      ? (widget.afterColors?.first ?? Colors.green).withOpacity(0.4)
-                      : (widget.beforeColors?.first ?? const Color(0xFF6366F1)).withOpacity(0.3),
+                  color: _isCompleted
+                      ? (widget.afterColors?.first ?? Colors.green).withValues(
+                          alpha: 0.4,
+                        )
+                      : (widget.beforeColors?.first ?? const Color(0xFF6366F1))
+                            .withValues(alpha: 0.3),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
@@ -159,19 +150,18 @@ class _CompleteOrderButtonState extends State<CompleteOrderButton>
                     borderRadius: BorderRadius.circular(16),
                     gradient: LinearGradient(
                       colors: _isCompleted
-                          ? widget.afterColors ?? [
-                              const Color(0xFF10B981),
-                              const Color(0xFF059669),
-                            ]
+                          ? widget.afterColors ??
+                                [
+                                  const Color(0xFF10B981),
+                                  const Color(0xFF059669),
+                                ]
                           : widget.isEnabled
-                              ? widget.beforeColors ?? [
+                          ? widget.beforeColors ??
+                                [
                                   const Color(0xFF6366F1),
                                   const Color(0xFF4F46E5),
                                 ]
-                              : [
-                                  Colors.grey.shade400,
-                                  Colors.grey.shade500,
-                                ],
+                          : [Colors.grey.shade400, Colors.grey.shade500],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -190,7 +180,7 @@ class _CompleteOrderButtonState extends State<CompleteOrderButton>
                                   return LinearGradient(
                                     colors: [
                                       Colors.transparent,
-                                      Colors.white.withOpacity(0.3),
+                                      Colors.white.withValues(alpha: 0.3),
                                       Colors.transparent,
                                     ],
                                     stops: const [0.0, 0.5, 1.0],
@@ -204,14 +194,14 @@ class _CompleteOrderButtonState extends State<CompleteOrderButton>
                                 child: Container(
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(16),
-                                    color: Colors.white.withOpacity(0.1),
+                                    color: Colors.white.withValues(alpha: 0.1),
                                   ),
                                 ),
                               ),
                             );
                           },
                         ),
-                      
+
                       // Main content
                       Center(
                         child: AnimatedSwitcher(
@@ -236,11 +226,7 @@ class _CompleteOrderButtonState extends State<CompleteOrderButton>
         key: ValueKey('completed'),
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.check_circle,
-            color: Colors.white,
-            size: 24,
-          ),
+          Icon(Icons.check_circle, color: Colors.white, size: 24),
           SizedBox(width: 8),
           Text(
             'Order Completed!',
@@ -271,10 +257,7 @@ class _CompleteOrderButtonState extends State<CompleteOrderButton>
                     width: 24,
                     height: 24,
                     decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 2,
-                      ),
+                      border: Border.all(color: Colors.white, width: 2),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
@@ -285,7 +268,7 @@ class _CompleteOrderButtonState extends State<CompleteOrderButton>
                       width: 24,
                       height: 24 * _packingAnimation.value,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withValues(alpha: 0.3),
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),
@@ -337,11 +320,7 @@ class _CompleteOrderButtonState extends State<CompleteOrderButton>
       key: const ValueKey('default'),
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Icon(
-          Icons.inventory_2_outlined,
-          color: Colors.white,
-          size: 20,
-        ),
+        const Icon(Icons.inventory_2_outlined, color: Colors.white, size: 20),
         const SizedBox(width: 8),
         Text(
           widget.text,
@@ -353,11 +332,7 @@ class _CompleteOrderButtonState extends State<CompleteOrderButton>
           ),
         ),
         const SizedBox(width: 8),
-        const Icon(
-          Icons.arrow_forward,
-          color: Colors.white,
-          size: 16,
-        ),
+        const Icon(Icons.arrow_forward, color: Colors.white, size: 16),
       ],
     );
   }

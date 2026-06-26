@@ -190,7 +190,7 @@ class _AnimatedDeleteButtonState extends State<AnimatedDeleteButton>
                   borderRadius: BorderRadius.circular(size / 4),
                   boxShadow: [
                     BoxShadow(
-                      color: (_colorAnimation.value ?? Colors.red).withOpacity(0.4),
+                      color: (_colorAnimation.value ?? Colors.red).withValues(alpha: 0.4),
                       blurRadius: _isDeleting ? 20 : 8,
                       spreadRadius: _isDeleting ? 4 : 0,
                       offset: const Offset(0, 4),
@@ -227,7 +227,7 @@ class _AnimatedDeleteButtonState extends State<AnimatedDeleteButton>
                               width: 4,
                               height: 4,
                               decoration: BoxDecoration(
-                                color: widget.dustColor ?? Colors.white.withOpacity(0.8),
+                                color: widget.dustColor ?? Colors.white.withValues(alpha: 0.8),
                                 borderRadius: BorderRadius.circular(2),
                               ),
                             ),

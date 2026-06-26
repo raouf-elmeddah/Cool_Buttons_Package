@@ -35,7 +35,7 @@ class DarkButton extends StatefulWidget {
   final double lightSegmentLength;
 
   const DarkButton({
-    Key? key,
+    super.key,
     required this.text,
     this.onPressed,
     this.width = 200,
@@ -55,8 +55,7 @@ class DarkButton extends StatefulWidget {
   }) : assert(
          lightSegmentLength >= 0.0 && lightSegmentLength <= 1.0,
          'lightSegmentLength must be between 0.0 and 1.0',
-       ),
-       super(key: key);
+       );
 
   @override
   State<DarkButton> createState() => _AceternityButtonState();
@@ -158,8 +157,8 @@ class _AceternityButtonState extends State<DarkButton>
           animation: Listenable.merge([_revolvingAnimation, _hoverAnimation]),
           builder: (context, child) {
             final currentBorderColor = Color.lerp(
-              widget.normalBorderColor.withOpacity(0.3),
-              widget.hoverBorderColor.withOpacity(0.9),
+              widget.normalBorderColor.withValues(alpha: 0.3),
+              widget.hoverBorderColor.withValues(alpha: 0.9),
               _hoverAnimation.value,
             )!;
             return Container(
@@ -174,7 +173,7 @@ class _AceternityButtonState extends State<DarkButton>
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Colors.black.withValues(alpha: 0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -206,14 +205,14 @@ class _AceternityButtonState extends State<DarkButton>
                           TextStyle(
                             color: widget.isEnabled
                                 ? widget.textColor
-                                : widget.textColor.withOpacity(0.5),
+                                : widget.textColor.withValues(alpha: 0.5),
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             letterSpacing: 0.8,
                             height: 1.2,
                             shadows: [
                               Shadow(
-                                color: Colors.black.withOpacity(0.5),
+                                color: Colors.black.withValues(alpha: 0.5),
                                 offset: const Offset(0, 1),
                                 blurRadius: 2,
                               ),
@@ -306,7 +305,7 @@ class _RevolvingLightPainter extends CustomPainter {
 
     for (final layer in glowLayers) {
       final paint = Paint()
-        ..color = color.withOpacity(layer.opacity)
+        ..color = color.withValues(alpha: layer.opacity)
         ..style = PaintingStyle.stroke
         ..strokeWidth = layer.strokeWidth
         ..strokeCap = StrokeCap.round;
@@ -340,8 +339,8 @@ class _RevolvingLightPainter extends CustomPainter {
     final Rect bounds = lightPath.getBounds();
     final gradient = LinearGradient(
       colors: [
-        Colors.white.withOpacity(0.9),
-        Colors.white.withOpacity(0.3),
+        Colors.white.withValues(alpha: 0.9),
+        Colors.white.withValues(alpha: 0.3),
         Colors.transparent,
       ],
       stops: [0.0, 0.4, 1.0],

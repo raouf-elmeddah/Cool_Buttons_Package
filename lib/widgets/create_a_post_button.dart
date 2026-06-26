@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:math' as math;
-import 'package:flutter/foundation.dart'; // Added for debugPrint
+// Added for debugPrint
 
 class EpicCreatePostButton extends StatefulWidget {
   final VoidCallback? onPressed;
@@ -9,11 +9,11 @@ class EpicCreatePostButton extends StatefulWidget {
   final double height;
 
   const EpicCreatePostButton({
-    Key? key,
+    super.key,
     this.onPressed,
     this.width = 200,
     this.height = 60,
-  }) : super(key: key);
+  });
 
   @override
   State<EpicCreatePostButton> createState() => _EpicCreatePostButtonState();
@@ -54,32 +54,32 @@ class _EpicCreatePostButtonState extends State<EpicCreatePostButton>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    
+
     _pressController = AnimationController(
       duration: const Duration(milliseconds: 150),
       vsync: this,
     );
-    
+
     _loadingController = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
     );
-    
+
     _particleController = AnimationController(
       duration: const Duration(milliseconds: 3000),
       vsync: this,
     );
-    
+
     _shimmerController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
-    
+
     _pulseController = AnimationController(
       duration: const Duration(milliseconds: 1000),
       vsync: this,
     );
-    
+
     _rotationController = AnimationController(
       duration: const Duration(milliseconds: 800),
       vsync: this,
@@ -88,27 +88,27 @@ class _EpicCreatePostButtonState extends State<EpicCreatePostButton>
     _hoverAnimation = Tween<double>(begin: 1.0, end: 1.05).animate(
       CurvedAnimation(parent: _hoverController, curve: Curves.easeInOut),
     );
-    
+
     _pressAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
       CurvedAnimation(parent: _pressController, curve: Curves.easeInOut),
     );
-    
+
     _loadingAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _loadingController, curve: Curves.easeInOut),
     );
-    
+
     _particleAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _particleController, curve: Curves.easeInOut),
     );
-    
+
     _shimmerAnimation = Tween<double>(begin: -1.0, end: 1.0).animate(
       CurvedAnimation(parent: _shimmerController, curve: Curves.easeInOut),
     );
-    
+
     _pulseAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
-    
+
     _rotationAnimation = Tween<double>(begin: 0.0, end: 2 * math.pi).animate(
       CurvedAnimation(parent: _rotationController, curve: Curves.easeInOut),
     );
@@ -147,7 +147,7 @@ class _EpicCreatePostButtonState extends State<EpicCreatePostButton>
 
     HapticFeedback.mediumImpact();
     _rotationController.forward();
-    
+
     setState(() {
       _isLoading = true;
     });
@@ -232,8 +232,8 @@ class _EpicCreatePostButtonState extends State<EpicCreatePostButton>
                   boxShadow: [
                     BoxShadow(
                       color: _isCompleted
-                          ? Colors.green.withOpacity(0.6)
-                          : Colors.purple.withOpacity(0.4),
+                          ? Colors.green.withValues(alpha: 0.6)
+                          : Colors.purple.withValues(alpha: 0.4),
                       blurRadius: _isHovered ? 20 : 15,
                       spreadRadius: _isHovered ? 5 : 2,
                       offset: const Offset(0, 5),
@@ -251,10 +251,7 @@ class _EpicCreatePostButtonState extends State<EpicCreatePostButton>
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: _isCompleted
-                              ? [
-                                  Colors.green.shade400,
-                                  Colors.green.shade600,
-                                ]
+                              ? [Colors.green.shade400, Colors.green.shade600]
                               : [
                                   Colors.purple.shade400,
                                   Colors.pink.shade500,
@@ -263,13 +260,13 @@ class _EpicCreatePostButtonState extends State<EpicCreatePostButton>
                         ),
                       ),
                     ),
-                    
+
                     // Particles
                     ..._particles.map((particle) => _buildParticle(particle)),
-                    
+
                     // Shimmer effect
                     _buildShimmer(),
-                    
+
                     // Pulse effect
                     if (_isHovered)
                       Container(
@@ -279,13 +276,13 @@ class _EpicCreatePostButtonState extends State<EpicCreatePostButton>
                             center: Alignment.center,
                             radius: _pulseAnimation.value,
                             colors: [
-                              Colors.white.withOpacity(0.1),
+                              Colors.white.withValues(alpha: 0.1),
                               Colors.transparent,
                             ],
                           ),
                         ),
                       ),
-                    
+
                     // Main content
                     Center(
                       child: AnimatedSwitcher(
@@ -308,9 +305,11 @@ class _EpicCreatePostButtonState extends State<EpicCreatePostButton>
       animation: _particleAnimation,
       builder: (context, child) {
         final progress = _particleAnimation.value;
-        final x = particle.x + math.cos(particle.angle + progress * 2 * math.pi) * 10;
-        final y = particle.y + math.sin(particle.angle + progress * 2 * math.pi) * 10;
-        
+        final x =
+            particle.x + math.cos(particle.angle + progress * 2 * math.pi) * 10;
+        final y =
+            particle.y + math.sin(particle.angle + progress * 2 * math.pi) * 10;
+
         return Positioned(
           left: x,
           top: y,
@@ -318,11 +317,11 @@ class _EpicCreatePostButtonState extends State<EpicCreatePostButton>
             width: particle.size,
             height: particle.size,
             decoration: BoxDecoration(
-              color: particle.color.withOpacity(0.8),
+              color: particle.color.withValues(alpha: 0.8),
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: particle.color.withOpacity(0.5),
+                  color: particle.color.withValues(alpha: 0.5),
                   blurRadius: 4,
                   spreadRadius: 1,
                 ),
@@ -346,7 +345,7 @@ class _EpicCreatePostButtonState extends State<EpicCreatePostButton>
               end: Alignment.centerRight,
               colors: [
                 Colors.transparent,
-                Colors.white.withOpacity(0.3),
+                Colors.white.withValues(alpha: 0.3),
                 Colors.transparent,
               ],
               stops: [
@@ -367,11 +366,7 @@ class _EpicCreatePostButtonState extends State<EpicCreatePostButton>
         key: ValueKey('completed'),
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.check_circle_outline,
-            color: Colors.white,
-            size: 24,
-          ),
+          Icon(Icons.check_circle_outline, color: Colors.white, size: 24),
           SizedBox(width: 8),
           Text(
             'Post Created!',
@@ -403,7 +398,9 @@ class _EpicCreatePostButtonState extends State<EpicCreatePostButton>
                     child: CircularProgressIndicator(
                       value: _loadingAnimation.value,
                       strokeWidth: 3,
-                      valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Colors.white,
+                      ),
                     ),
                   ),
                   const Icon(
